@@ -47,8 +47,9 @@ $(".row div").on("click", (event)=>{  //settled..
             userClickedPattern.push(userChosenColour);
             // console.log("user click pattern is " + userClickedPattern);  //debugging
             counter ++;  //increases counter by one....hence we check userchosencolor against the next index in gamepattern array
-    }else{
+    }else if(gamePattern.length !=0){
         // in the case wr the user has chosen the wrong color in the sequnce, its game over and the following is reset
+        //we make sure this does not occur when the game hasnt started. so we check the (gamepattern.length) to confirm its not empty
 
         // ofcourse we play error sound first.....
         var sound = new Audio("sounds/wrong.mp3");
@@ -75,7 +76,7 @@ $(".row div").on("click", (event)=>{  //settled..
     // inputed all the colors in the gamePattern in the right sequence without screwing it up...
 
     if(userClickedPattern.length === gamePattern.length){
-        if(gamePattern.length !=0){
+        if(gamePattern.length !=0){  //because when user makes error and reset occurs, gamepattern.length === userclickpattern.lenght ie 0
             setTimeout(()=>{
                 nextSequence();
                 userClickedPattern = [];  //reset it because the user is meant to recall and fill in all colors in correct sequence
@@ -98,22 +99,22 @@ $(document).keydown(()=>{ //settled
         // keyboardEvent.push(e.key);
         // we use the boolean way instead
         started = true;  //this makes the running condition to be false because (started is true)..the callback no longer will respond to keydown event 
-    }else{}  //we do nothing.........
+    }else{}  //we do nothing.........(the else{} can be leftout)
 });
 
 // this eventListener allows the game to be played by touchscreen only devices.
 $(document).click((e)=>{
     if(!started){
-        // make sure the user clicks the body of the page
+        // make sure the user clicks the body of the page or on the plane document
         if(e.target.matches("body")){
             $("h1").text("level " + gameLevel);
-        nextSequence();
-        // keyboardEvent.push(e.key);
-        // we use the boolean way instead
-        started = true;  //this makes the running condition to be false because (started is true)..the callback no longer will respond to keydown event 
+            nextSequence();
+            // keyboardEvent.push(e.key);
+            // we use the boolean way instead
+            started = true;  //this makes the running condition to be false because (started is true)..the callback no longer will respond to keydown event 
         }
         
-    }else{}  //we do nothing.........
+    }else{}  //we do nothing......... 
 })
 
 function playSound(name){  //settled.....
